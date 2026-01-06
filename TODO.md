@@ -1,2 +1,2 @@
 ## Hoy
-- [ ] Agregar producto desde Formulario.
+- [ ] Eliminar productos desde la tabla.

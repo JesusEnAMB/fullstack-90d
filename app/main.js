@@ -1,3 +1,21 @@
+function renderTabla() {
+  tbody.innerHTML = "";
+
+  for (let producto of productos) {
+    const fila = `
+      <tr>
+        <td>${producto.id}</td>
+        <td>${producto.nombre}</td>
+        <td>${producto.precio}</td>
+        <td>
+          <button onclick="eliminarProducto(${producto.id})">Eliminar</button>
+        </td>
+      </tr>
+    `;
+    tbody.innerHTML += fila;
+  }
+}
+
 const productos = [
   { id: 1, nombre: "Producto A", precio: 100 },
   { id: 2, nombre: "Producto B", precio: 200 },
@@ -33,17 +51,16 @@ form.addEventListener("submit", function (e) {
 
   productos.push(nuevoProducto);
 
-  tbody.innerHTML = "";
-  for (let producto of productos) {
-    const fila = `
-      <tr>
-        <td>${producto.id}</td>
-        <td>${producto.nombre}</td>
-        <td>${producto.precio}</td>
-      </tr>
-    `;
-    tbody.innerHTML += fila;
-  }
+  renderTabla()
 
   form.reset();
 });
+
+function eliminarProducto(id) {
+  const indice = productos.findIndex(p => p.id === id);
+  productos.splice(indice, 1);
+
+  renderTabla()
+}
+
+renderTabla()
