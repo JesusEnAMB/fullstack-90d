@@ -1,2 +1,2 @@
 ## Hoy
-- [ ] Crear tabla html de productos con datos fijos.
+- [ ] Renderizar tabla html de productos desde JavaScript.
