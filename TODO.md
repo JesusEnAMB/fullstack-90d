@@ -1,2 +1,2 @@
 ## Hoy
-- [ ] Renderizar tabla html de productos desde JavaScript.
+- [ ] Agregar producto desde Formulario.
