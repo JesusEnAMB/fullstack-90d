@@ -34,3 +34,9 @@ btnAgregar.addEventListener("click", () => {
   lista.appendChild(li);
   inputTarea.value = "";
 });
+
+inputTarea.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    btnAgregar.click();
+  }
+});
