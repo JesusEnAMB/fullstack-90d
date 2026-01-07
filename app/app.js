@@ -1,11 +1,32 @@
 let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
 
+// Normalizar tareas antiguas (strings → objetos)
+tareas = tareas.map(t => {
+  if (typeof t === "string") {
+    return {
+      id: Date.now() + Math.random(),
+      texto: t
+    };
+  }
+  return t;
+});
+
 function renderTareas() {
   lista.innerHTML = "";
 
   tareas.forEach((tarea) => {
     const li = document.createElement("li");
-    li.textContent = tarea;
+    li.textContent = tarea.texto;
+
+    const btnEliminar = document.createElement("button");
+    btnEliminar.textContent = "❌";
+    btnEliminar.style.marginLeft = "10px";
+
+    btnEliminar.addEventListener("click", () => {
+      eliminarTarea(tarea.id);
+    });
+
+    li.appendChild(btnEliminar);
     lista.appendChild(li);
   });
 }
@@ -40,7 +61,12 @@ function agregarTarea() {
 
   if (texto === "") return;
 
-  tareas.push(texto);
+  const tarea = {
+    id: Date.now(),
+    texto: texto
+  };
+
+  tareas.push(tarea);
   localStorage.setItem("tareas", JSON.stringify(tareas));
 
   renderTareas();
@@ -54,5 +80,11 @@ inputTarea.addEventListener("keypress", (e) => {
     agregarTarea();
   }
 });
+
+function eliminarTarea(id) {
+  tareas = tareas.filter(t => t.id !== id);
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+  renderTareas();
+}
 
 renderTareas();
