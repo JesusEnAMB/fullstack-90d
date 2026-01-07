@@ -1,3 +1,15 @@
+let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
+
+function renderTareas() {
+  lista.innerHTML = "";
+
+  tareas.forEach((tarea) => {
+    const li = document.createElement("li");
+    li.textContent = tarea;
+    lista.appendChild(li);
+  });
+}
+
 const titulo = document.getElementById("titulo");
 const boton = document.getElementById("btnCambiar");
 
@@ -28,9 +40,10 @@ function agregarTarea() {
 
   if (texto === "") return;
 
-  const li = document.createElement("li");
-  li.textContent = texto;
-  lista.appendChild(li);
+  tareas.push(texto);
+  localStorage.setItem("tareas", JSON.stringify(tareas));
+
+  renderTareas();
   inputTarea.value = "";
 }
 
@@ -41,3 +54,5 @@ inputTarea.addEventListener("keypress", (e) => {
     agregarTarea();
   }
 });
+
+renderTareas();
