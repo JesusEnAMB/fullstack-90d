@@ -57,9 +57,15 @@ const btnAgregar = document.getElementById("btnAgregar");
 const lista = document.getElementById("lista");
 
 function agregarTarea() {
-  const texto = inputTarea.value;
+  const texto = inputTarea.value.trim();
 
   if (texto === "") return;
+
+  const existe = tareas.some(t => t.texto.toLowerCase() === texto.toLowerCase());
+  if (existe) {
+    mostrarMensaje("Esa tarea ya existe");
+    return;
+  }
 
   const tarea = {
     id: Date.now(),
@@ -85,6 +91,15 @@ function eliminarTarea(id) {
   tareas = tareas.filter(t => t.id !== id);
   localStorage.setItem("tareas", JSON.stringify(tareas));
   renderTareas();
+}
+
+const mensaje = document.getElementById("mensaje");
+
+function mostrarMensaje(texto) {
+  mensaje.textContent = texto;
+  setTimeout(() => {
+    mensaje.textContent = "";
+  }, 2000);
 }
 
 renderTareas();

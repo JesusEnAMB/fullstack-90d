@@ -64,3 +64,8 @@ li {
   padding: 6px;
   border-radius: 4px;
 }
+
+#mensaje {
+  color: red;
+  font-size: 14px;
+}
