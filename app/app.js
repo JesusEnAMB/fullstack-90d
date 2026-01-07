@@ -23,20 +23,21 @@ const inputTarea = document.getElementById("tarea");
 const btnAgregar = document.getElementById("btnAgregar");
 const lista = document.getElementById("lista");
 
-btnAgregar.addEventListener("click", () => {
+function agregarTarea() {
   const texto = inputTarea.value;
 
   if (texto === "") return;
 
   const li = document.createElement("li");
   li.textContent = texto;
-
   lista.appendChild(li);
   inputTarea.value = "";
-});
+}
+
+btnAgregar.addEventListener("click", agregarTarea);
 
 inputTarea.addEventListener("keypress", (e) => {
   if (e.key === "Enter") {
-    btnAgregar.click();
+    agregarTarea();
   }
 });
