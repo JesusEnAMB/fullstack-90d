@@ -18,3 +18,19 @@ btnSaludar.addEventListener("click", () => {
     resultado.textContent = `Hola ${nombre}, bienvenido a Fullstack 90D 🚀`;
   }
 });
+
+const inputTarea = document.getElementById("tarea");
+const btnAgregar = document.getElementById("btnAgregar");
+const lista = document.getElementById("lista");
+
+btnAgregar.addEventListener("click", () => {
+  const texto = inputTarea.value;
+
+  if (texto === "") return;
+
+  const li = document.createElement("li");
+  li.textContent = texto;
+
+  lista.appendChild(li);
+  inputTarea.value = "";
+});
