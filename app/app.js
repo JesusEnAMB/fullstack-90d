@@ -1,3 +1,15 @@
+// Referencias al DOM
+const titulo = document.getElementById("titulo");
+const boton = document.getElementById("btnCambiar");
+const inputNombre = document.getElementById("nombre");
+const btnSaludar = document.getElementById("btnSaludar");
+const resultado = document.getElementById("resultado");
+const inputTarea = document.getElementById("tarea");
+const btnAgregar = document.getElementById("btnAgregar");
+const lista = document.getElementById("lista");
+const mensaje = document.getElementById("mensaje");
+
+// Estado / datos
 let tareas = JSON.parse(localStorage.getItem("tareas")) || [];
 
 // Normalizar tareas antiguas (strings → objetos)
@@ -11,40 +23,17 @@ tareas = tareas.map(t => {
   return t;
 });
 
-function renderTareas() {
-  lista.innerHTML = "";
-
-  tareas.forEach((tarea) => {
-    const li = document.createElement("li");
-    li.textContent = tarea.texto;
-
-    const btnEliminar = document.createElement("button");
-    btnEliminar.textContent = "❌";
-    btnEliminar.style.marginLeft = "10px";
-
-    btnEliminar.addEventListener("click", () => {
-      eliminarTarea(tarea.id);
-    });
-
-    li.appendChild(btnEliminar);
-    lista.appendChild(li);
-  });
-}
-
-const titulo = document.getElementById("titulo");
-const boton = document.getElementById("btnCambiar");
-
+// Event Listeners
 boton.addEventListener("click", handleCambiarTexto);
+btnSaludar.addEventListener("click", handleSaludar);
+//btnAgregar.addEventListener("click", agregarTarea);
+//inputTarea.addEventListener("keypress", handleKeyPress(e));
+document.addEventListener("DOMContentLoaded", initApp);
 
+// Controladores Handle
 function handleCambiarTexto() {
   titulo.textContent = "Texto cambiado con JavaScript 🚀";
 }
-
-const inputNombre = document.getElementById("nombre");
-const btnSaludar = document.getElementById("btnSaludar");
-const resultado = document.getElementById("resultado");
-
-btnSaludar.addEventListener("click", handleSaludar);
 
 function handleSaludar() {
   const nombre = inputNombre.value;
@@ -57,10 +46,13 @@ function handleSaludar() {
   }
 }
 
-const inputTarea = document.getElementById("tarea");
-const btnAgregar = document.getElementById("btnAgregar");
-const lista = document.getElementById("lista");
+function handleKeyPress(e) {
+  if (e.key === "Enter") {
+    agregarTarea();
+  }
+}
 
+// Logica Pura
 function agregarTarea() {
   const texto = inputTarea.value.trim();
 
@@ -84,21 +76,11 @@ function agregarTarea() {
   inputTarea.value = "";
 }
 
-btnAgregar.addEventListener("click", agregarTarea);
-
-inputTarea.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    agregarTarea();
-  }
-});
-
 function eliminarTarea(id) {
   tareas = tareas.filter(t => t.id !== id);
   localStorage.setItem("tareas", JSON.stringify(tareas));
   renderTareas();
 }
-
-const mensaje = document.getElementById("mensaje");
 
 function mostrarMensaje(texto) {
   mensaje.textContent = texto;
@@ -107,4 +89,32 @@ function mostrarMensaje(texto) {
   }, 2000);
 }
 
-renderTareas();
+// Render UI
+function renderTareas() {
+  lista.innerHTML = "";
+
+  tareas.forEach((tarea) => {
+    const li = document.createElement("li");
+    li.textContent = tarea.texto;
+
+    const btnEliminar = document.createElement("button");
+    btnEliminar.textContent = "❌";
+    btnEliminar.style.marginLeft = "10px";
+
+    btnEliminar.addEventListener("click", () => {
+      eliminarTarea(tarea.id);
+    });
+
+    li.appendChild(btnEliminar);
+    lista.appendChild(li);
+  });
+}
+
+// Init
+function initApp(){
+  console.log("INIT OK");
+
+  btnAgregar.addEventListener("click", agregarTarea);
+  inputTarea.addEventListener("keydown", handleKeyPress);
+  renderTareas()
+}
