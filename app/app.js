@@ -26,6 +26,7 @@ tareas = tareas.map(t => {
 // Event Listeners
 boton.addEventListener("click", handleCambiarTexto);
 btnSaludar.addEventListener("click", handleSaludar);
+//lista.addEventListener("click", handleListaClick);
 //btnAgregar.addEventListener("click", agregarTarea);
 //inputTarea.addEventListener("keypress", handleKeyPress(e));
 document.addEventListener("DOMContentLoaded", initApp);
@@ -49,6 +50,16 @@ function handleSaludar() {
 function handleKeyPress(e) {
   if (e.key === "Enter") {
     agregarTarea();
+  }
+}
+
+function handleListaClick(e) {
+  
+  if (e.target.matches(".btn-eliminar")) {
+    const id = e.target.dataset.id;
+    
+    eliminarTarea(id);
+    renderTareas();
   }
 }
 
@@ -77,7 +88,8 @@ function agregarTarea() {
 }
 
 function eliminarTarea(id) {
-  tareas = tareas.filter(t => t.id !== id);
+  const idNum = Number(id);
+  tareas = tareas.filter(tarea => tarea.id !== idNum);
   localStorage.setItem("tareas", JSON.stringify(tareas));
   renderTareas();
 }
@@ -100,10 +112,8 @@ function renderTareas() {
     const btnEliminar = document.createElement("button");
     btnEliminar.textContent = "❌";
     btnEliminar.style.marginLeft = "10px";
-
-    btnEliminar.addEventListener("click", () => {
-      eliminarTarea(tarea.id);
-    });
+    btnEliminar.classList.add("btn-eliminar");
+    btnEliminar.dataset.id = tarea.id;
 
     li.appendChild(btnEliminar);
     lista.appendChild(li);
@@ -112,9 +122,9 @@ function renderTareas() {
 
 // Init
 function initApp(){
-  console.log("INIT OK");
-
+  
   btnAgregar.addEventListener("click", agregarTarea);
   inputTarea.addEventListener("keydown", handleKeyPress);
+  lista.addEventListener("click", handleListaClick);
   renderTareas()
 }
